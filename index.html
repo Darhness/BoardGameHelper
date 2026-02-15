@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOARDGAMENAME</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="sidebar.css">
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+
+    <div class="player-container">
+        <main class="player-details">
+        </main>
+
+        <template id="playerDetailsTemplate">
+            <div class="selected-player-display">
+                <div class="player-faction-large">
+                    <div data-field="factionIcon" style="font-size: 40px;"></div>
+                    <span data-field="factionName" class="faction-name"></span>
+                </div>
+                <div class="player-name-header">
+                    <h2 data-field="name"></h2>
+                    <button class="player-delete-btn" data-field="deletePlayerBtn" title="Delete player">✕</button>
+                </div>
+                <div class="player-info">
+                    <div class="info-item">
+                        <span class="info-label">Army Count:</span>
+                        <span class="info-value" data-field="armyCount"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Color:</span>
+                        <div class="color-display" data-field="colorDisplay"></div>
+                    </div>
+                </div>
+                <button class="add-squad-btn" data-field="addSquadBtn">+ Add Squad</button>
+                <div class="carousel" data-field="carousel">
+                    <div class="carousel-nav">
+                        <button class="carousel-nav-btn" data-carousel-target="squads" data-field="navSquads">Squads</button>
+                        <button class="carousel-nav-btn" data-carousel-target="fight-history" data-field="navFightHistory">Fight History</button>
+                    </div>
+                    <div class="carousel-content" data-field="carouselContent"></div>
+                </div>
+            </div>
+        </template>
+
+        <template id="squadsCarouselItemTemplate">
+            <div class="carousel-item active" data-carousel-id="squads">
+                <div class="squads-grid" data-field="squadsGrid"></div>
+            </div>
+        </template>
+
+        <template id="fightHistoryCarouselItemTemplate">
+            <div class="carousel-item" data-carousel-id="fight-history">
+                <div class="fight-history-container" data-field="fightHistoryContainer">
+                    <p class="empty-history">No fights yet</p>
+                </div>
+            </div>
+        </template>
+
+        <template id="squadPanelTemplate">
+            <div class="squad-panel">
+                <div class="squad-header">
+                    <span class="squad-name" data-field="squadName"></span>
+                    <div class="squad-actions">
+                        <button class="squad-edit-btn" data-field="editBtn" title="Edit squad">✎</button>
+                        <button class="squad-remove-btn" data-field="removeBtn" title="Remove squad">✕</button>
+                    </div>
+                </div>
+                <div class="squad-sections">
+                    <!-- Frontline Section: Infantry, Cavalry, Knight -->
+                    <div class="squad-section frontline-section">
+                        <div class="section-units" data-field="frontlineUnits"></div>
+                        <div class="section-divider"></div>
+                    </div>
+                    <!-- Middle Section: Mage -->
+                    <div class="squad-section middle-section">
+                        <div class="section-units" data-field="middleUnits"></div>
+                        <div class="section-divider"></div>
+                    </div>
+                    <!-- Backline Section: Archer -->
+                    <div class="squad-section backline-section">
+                        <div class="section-units" data-field="backlineUnits"></div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="unitItemTemplate">
+            <div class="squad-unit-item">
+                <span class="unit-icon" data-field="unitIcon"></span>
+                <span class="unit-count" data-field="unitCount"></span>
+            </div>
+        </template>
+
+        <template id="playerSlotTemplate">
+            <div class="player-slot" data-field="playerSlot">
+                <div class="player-header">
+                    <div class="army-count">
+                        <span class="army-icon">⚔</span>
+                        <span class="army-number" data-field="armyNumber"></span>
+                    </div>
+                    <div class="faction-icon" data-field="factionIcon"></div>
+                </div>
+                <span class="player-name" data-field="playerName"></span>
+                <div class="current-turn-indicator" data-field="turnIndicator" style="display: none;"></div>
+            </div>
+        </template>
+
+        <template id="squadUnitRowTemplate">
+            <div class="squad-unit-row">
+                <input type="number" class="unit-count-input" min="1" value="1" placeholder="Count" />
+                <select class="unit-type-select"></select>
+                <button type="button" class="remove-unit-btn" data-field="removeBtn">✕</button>
+            </div>
+        </template>
+
+        <aside class="player-sidebar" id="playerSidebar">
+            <button class="toggle-sidebar-btn" id="toggleSidebarBtn" title="Hide players">➲</button>
+            <div class="players-container" id="playersContainer">
+                <button class="add-player-btn" id="addPlayerBtn">+</button>
+            </div>
+        </aside>
+
+        <!-- Dialog for adding new player -->
+        <dialog id="addPlayerDialog" class="add-player-dialog">
+            <div class="dialog-content">
+                <h2>Add New Player</h2>
+                
+                <div class="form-group">
+                    <label for="playerNameInput">Name</label>
+                    <input type="text" id="playerNameInput" placeholder="Enter player name" />
+                </div>
+
+                <div class="form-group">
+                    <label for="playerColorInput">Color</label>
+                    <input type="color" id="playerColorInput" value="#2980b9" />
+                </div>
+
+                <div class="form-group">
+                    <label>Faction</label>
+                    <div class="faction-options" id="factionOptions">
+                        <!-- Faction buttons will be generated dynamically -->
+                    </div>
+                    <input type="hidden" id="playerFactionInput" value="" />
+                </div>
+                
+                <div class="dialog-buttons">
+                    <button id="confirmBtn" class="confirm-btn">Add</button>
+                    <button id="cancelBtn" class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </dialog>
+
+        <!-- Dialog for adding new squad -->
+        <dialog id="addSquadDialog" class="add-squad-dialog">
+            <div class="dialog-content">
+                <h2>Add Squad</h2>
+                
+                <div class="form-group">
+                    <label for="squadNameInput">Squad Name</label>
+                    <input type="text" id="squadNameInput" placeholder="e.g., Alpha Squadron" />
+                </div>
+
+                <div class="form-group">
+                    <label>Units in Squad</label>
+                    <div id="squadUnitsContainer" class="squad-units-container">
+                        <!-- Unit rows will be added here dynamically -->
+                    </div>
+                    <button type="button" id="addUnitBtn" class="add-unit-btn">+ Add Unit Type</button>
+                </div>
+                
+                <input type="hidden" id="squadPlayerIdInput" />
+                
+                <div class="dialog-buttons">
+                    <button id="confirmSquadBtn" class="confirm-btn">Add Squad</button>
+                    <button id="cancelSquadBtn" class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </dialog>
+
+        <!-- Dialog for editing squad -->
+        <dialog id="editSquadDialog" class="add-squad-dialog">
+            <div class="dialog-content">
+                <h2>Edit Squad</h2>
+                
+                <div class="form-group">
+                    <label for="editSquadNameInput">Squad Name</label>
+                    <input type="text" id="editSquadNameInput" placeholder="e.g., Alpha Squadron" />
+                </div>
+
+                <div class="form-group">
+                    <label>Units in Squad</label>
+                    <div id="editSquadUnitsContainer" class="squad-units-container">
+                        <!-- Unit rows will be added here dynamically -->
+                    </div>
+                    <button type="button" id="editAddUnitBtn" class="add-unit-btn">+ Add Unit Type</button>
+                </div>
+                
+                <input type="hidden" id="editSquadPlayerIdInput" />
+                <input type="hidden" id="editSquadIndexInput" />
+                
+                <div class="dialog-buttons">
+                    <button id="confirmEditSquadBtn" class="confirm-btn">Save Changes</button>
+                    <button id="cancelEditSquadBtn" class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </dialog>
+    </div>
+    
+    <button class="fight-btn" id="fightBtn" disabled>⚔</button>
+    
+    <!-- Load JavaScript modules in dependency order -->
+    <script src="js/state.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/players.js"></script>
+    <script src="js/squads.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>

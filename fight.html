@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fight - BOARDGAMENAME</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fight.css">
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+
+    <div class="fight-container">
+        <!-- Player 1 Section -->
+        <div class="player-section player-1">
+            <div class="player-header">
+                <div class="player-icon-large" id="player1Icon"></div>
+                <div class="player-info">
+                    <h2 id="player1Name"></h2>
+                    <span id="player1Faction" class="faction-label"></span>
+                </div>
+            </div>
+
+            <div class="squad-selector">
+                <label for="squad1Select">Select Squad:</label>
+                <select id="squad1Select" class="squad-dropdown">
+                    <option value="">-- No Squad --</option>
+                </select>
+            </div>
+
+            <div id="squad1Display" class="squad-display">
+                <div class="squad-sections">
+                    <div class="squad-section frontline-section">
+                        <div class="section-units" id="squad1Frontline"></div>
+                        <div class="section-divider"></div>
+                    </div>
+                    <div class="squad-section middle-section">
+                        <div class="section-units" id="squad1Middle"></div>
+                        <div class="section-divider"></div>
+                    </div>
+                    <div class="squad-section backline-section">
+                        <div class="section-units" id="squad1Backline"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="createSquad1Btn" class="create-squad-btn" style="display: none;">+ Create New Squad</button>
+        </div>
+
+        <div class="action-buttons">
+
+            <!-- Back Button -->
+            <a href="index.html" class="back-btn">🏳️ Back</a>
+
+            <!-- Fight Button -->
+            <button class="fight-start-btn" id="fightStartBtn">⚔ FIGHT</button>
+        </div>
+
+        <!-- Player 2 Section (Enemy) -->
+        <div class="player-section player-2">
+            <div class="player-header">
+                <div class="player-icon-large" id="player2Icon"></div>
+                <div class="player-info">
+                    <h2 id="player2Name"></h2>
+                    <span id="player2Faction" class="faction-label"></span>
+                </div>
+            </div>
+
+            <div class="player-selector">
+                <label for="player2Select">Select Enemy:</label>
+                <select id="player2Select" class="player-dropdown">
+                    <option value="">-- Select Player --</option>
+                </select>
+            </div>
+
+            <div class="squad-selector" id="squad2SelectorContainer" style="display: none;">
+                <label for="squad2Select">Select Squad:</label>
+                <select id="squad2Select" class="squad-dropdown">
+                    <option value="">-- No Squad --</option>
+                </select>
+            </div>
+
+            <div id="squad2Display" class="squad-display">
+                <div class="squad-sections">
+                    <div class="squad-section frontline-section">
+                        <div class="section-units" id="squad2Frontline"></div>
+                        <div class="section-divider"></div>
+                    </div>
+                    <div class="squad-section middle-section">
+                        <div class="section-units" id="squad2Middle"></div>
+                        <div class="section-divider"></div>
+                    </div>
+                    <div class="squad-section backline-section">
+                        <div class="section-units" id="squad2Backline"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="createSquad2Btn" class="create-squad-btn" style="display: none;">+ Create New Squad</button>
+        </div>
+    </div>
+
+    <!-- Load JavaScript modules in dependency order -->
+    <script src="js/state.js"></script>
+    <script src="js/squads.js"></script>
+    <script src="js/fight.js"></script>
+
+</body>
+
+</html>

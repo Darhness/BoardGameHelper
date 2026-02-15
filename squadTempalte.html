@@ -1,0 +1,43 @@
+<template id="squadViewTemplate">
+    <div class="squad-view-panel">
+        <div class="squad-view-header">
+            <span class="squad-view-title" data-field="squadTitle"></span>
+            <div class="squad-view-actions">
+                <button class="squad-view-edit-btn" data-field="editBtn" title="Edit squad">✎</button>
+                <button class="squad-view-close-btn" data-field="closeBtn" title="Close">✕</button>
+            </div>
+        </div>
+        
+        <div class="squad-view-content">
+            <!-- Frontline Section -->
+            <div class="squad-section frontline-section">
+                <div class="section-units" data-field="frontlineUnits">
+                    <!-- Infantry, Cavalry, Knight units go here -->
+                </div>
+                <div class="section-divider"></div>
+            </div>
+            
+            <!-- Middle Section -->
+            <div class="squad-section middle-section">
+                <div class="section-units" data-field="middleUnits">
+                    <!-- Mage units go here -->
+                </div>
+                <div class="section-divider"></div>
+            </div>
+            
+            <!-- Backline Section -->
+            <div class="squad-section backline-section">
+                <div class="section-units" data-field="backlineUnits">
+                    <!-- Archer units go here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="squadViewUnitTemplate">
+    <div class="squad-view-unit">
+        <span class="squad-view-unit-icon" data-field="unitIcon"></span>
+        <span class="squad-view-unit-count" data-field="unitCount"></span>
+    </div>
+</template>

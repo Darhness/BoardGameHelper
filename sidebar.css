@@ -1,0 +1,161 @@
+/* Player Sidebar Styles */
+
+.player-sidebar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100px;
+    height: 100vh;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    z-index: 10;
+}
+
+.players-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    overflow-y: auto;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    width: 130px;
+}
+
+.players-container.hidden {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.player-slot {
+    position: relative;
+    width: 110px;
+    height: 100px;
+    margin-bottom: 8px;
+    margin-top: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 40px 0 0 40px;
+    /* Rounded inside edge */
+    transition: all 0.2s;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+@keyframes pulseSelected {
+    0%, 100% {
+        box-shadow: inset 0 0 0 3px var(--faction-border, rgba(255, 215, 0, 0.8));
+    }
+    33% {
+        box-shadow: inset 0 0 0 3px var(--faction-border-dark, rgba(218, 165, 32, 0.8));
+    }
+    66% {
+        box-shadow: inset 0 0 0 3px var(--faction-border-light, rgba(255, 200, 0, 0.8));
+    }
+}
+
+.player-slot.selected {
+    animation: pulseSelected 1.5s ease-in-out infinite;
+}
+
+.player-slot.active {
+    transform: translateX(-10px);
+    box-shadow: -5px 0px 15px rgba(241, 196, 15, 0.5);
+}
+
+.player-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.army-count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.army-icon {
+    font-size: 14px;
+}
+
+.army-number {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.player-name {
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 5px;
+}
+
+.add-player-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #444;
+    color: white;
+    border: 2px solid #666;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+}
+
+.add-player-btn:hover {
+    background-color: #555;
+    border-color: #888;
+    transform: scale(1.1);
+}
+
+.add-player-btn:active {
+    transform: scale(0.95);
+}
+
+.toggle-sidebar-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+    transform: rotate(0deg);
+}
+
+.toggle-sidebar-btn.rotated {
+    transform: rotate(180deg);
+}
+
+.toggle-sidebar-btn:hover {
+    background-color: #444;
+    border-color: #666;
+}
+
+.toggle-sidebar-btn:active {
+    transform: rotate(180deg) scale(0.95);
+}
