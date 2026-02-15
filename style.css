@@ -123,14 +123,15 @@ body {
 }
 
 .player-delete-btn {
+    justify-content: center;
     background: rgba(220, 53, 69, 0.2);
     border: 1px solid rgba(220, 53, 69, 0.5);
     color: #ff6b6b;
-    width: 24px;
-    height: 24px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 8px;
     font-weight: bold;
     transition: all 0.2s;
     display: flex;
