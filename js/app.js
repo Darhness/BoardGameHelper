@@ -4,16 +4,25 @@
 document.addEventListener('DOMContentLoaded', () => {
     loadPlayers();
     renderPlayers();
-    
+
     // Select and display first player by default
     if (players.length > 0) {
         selectPlayer(players[0].id);
     }
-    
+
+    // Keep sidebar visible on initial load
+    sidebarVisible = true;
+    updateToggleButton();
+    document.getElementById('playersContainer').style.display = 'flex';
+    const carouselContent = document.querySelector('[data-field="carouselContent"]');
+    if (carouselContent) {
+        carouselContent.style.zIndex = ''; // Reset z-index
+    }
+
     // Setup sidebar buttons
     document.getElementById('toggleSidebarBtn').onclick = toggleSidebar;
     document.getElementById('addPlayerBtn').onclick = openAddPlayerDialog;
-    
+
     // Setup fight button
     document.getElementById('fightBtn').onclick = () => {
         // Save selected player and squad to localStorage for fight page
@@ -21,16 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('fightSelectedSquadIndex', selectedSquadIndex);
         window.location.href = 'fight.html';
     };
-    
+
     // Setup player dialog buttons
     document.getElementById('confirmBtn').onclick = confirmAddPlayer;
     document.getElementById('cancelBtn').onclick = cancelAddPlayer;
-    
+
     // Setup squad dialog buttons
     document.getElementById('confirmSquadBtn').onclick = confirmAddSquad;
     document.getElementById('cancelSquadBtn').onclick = () => document.getElementById('addSquadDialog').close();
     document.getElementById('addUnitBtn').onclick = addSquadUnitRow;
-    
+
     // Setup edit squad dialog buttons
     document.getElementById('confirmEditSquadBtn').onclick = confirmEditSquad;
     document.getElementById('cancelEditSquadBtn').onclick = () => {
@@ -38,14 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
         currentDialogMode = 'add';
     };
     document.getElementById('editAddUnitBtn').onclick = addEditSquadUnitRow;
-    
+
     // Allow Enter key to confirm in player dialog
     document.getElementById('playerNameInput').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             confirmAddPlayer();
         }
     });
-    
+
     // Allow Enter key to confirm in squad dialog
     document.getElementById('squadNameInput').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
@@ -59,9 +68,9 @@ function renderFactionButtons() {
     const container = document.getElementById('factionOptions');
     const usedFactions = getUsedFactions();
     container.innerHTML = '';
-    
+
     let firstAvailable = null;
-    
+
     FACTIONS.forEach(faction => {
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -69,7 +78,7 @@ function renderFactionButtons() {
         btn.dataset.faction = faction.id;
         btn.title = faction.name;
         btn.innerHTML = `<span class="faction-icon">${faction.icon}</span><span class="faction-label">${faction.name}</span>`;
-        
+
         if (usedFactions.has(faction.id)) {
             btn.disabled = true;
             btn.classList.add('taken');
@@ -82,10 +91,10 @@ function renderFactionButtons() {
                 document.getElementById('playerFactionInput').value = faction.id;
             });
         }
-        
+
         container.appendChild(btn);
     });
-    
+
     // Select first available faction
     if (firstAvailable) {
         const firstBtn = container.querySelector(`[data-faction="${firstAvailable}"]`);
